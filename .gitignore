@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Datasets (download separately; see README)
+data/
+
+# Regenerated experiment outputs (tracked results live under results/, see results/README.md)
+results/_smoke/
+results/forecasting/
+results/optuna/
+results/causal/
+results/figures/
+outputs/
+multirun/
+*.log

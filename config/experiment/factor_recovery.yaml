@@ -1,0 +1,167 @@
+# Synthetic factor recovery experiment config.
+#
+# Note: `experiments/exp_factor_recovery.py` generates synthetic data internally,
+# but it reads parameters from `cfg.experiment.*`.
+# Per-suite configuration: suite_model_overrides is the single source for model params.
+
+# Monte Carlo repetitions
+n_simulations: 10
+
+# Optional selectors (used by scripts to run a subset per invocation).
+# Defaults run everything.
+suites: [dynamic, static]
+models: [dfm, ddfm, vae, ivae, ivdfm]
+
+# Dynamic synthetic parameters
+T: 200
+N: 20
+r: 5
+rho: 0.7
+alpha: 0.2
+dynamic_shock_distribution: laplace
+poly_degree: 1
+sign_features: 0
+portion_missings: 0.0
+
+# Static (iVAE-style) synthetic parameters
+n_seg: 10
+static_n_layers: 2
+static_activation: tanh
+static_noise_std: 0.0
+static_data_dim: null
+
+# Output directory for results
+output_dir: ./results/factor_recovery
+# Optional: write LaTeX table after run (directory path; disabled when null)
+factor_recovery_tables_dir: null
+# Optional: fix data seed so all sims use same data (reduces variance; set to integer, e.g. 2026)
+factor_recovery_data_seed: null
+
+# ---------------------------------------------------------------------------
+# Optional: fair hyperparameter tuning (Optuna)
+# If enabled, we tune the same budget per model on the dynamic suite only,
+# using a fixed synthetic dataset (factor_recovery_data_seed must be set) and
+# then evaluate with the tuned params on both suites.
+# ---------------------------------------------------------------------------
+optuna:
+  enabled: false
+  suites: [dynamic]
+  # Fixed synthetic dataset seed used only during tuning (evaluation still uses per-simulation seeds
+  # unless factor_recovery_data_seed is set explicitly).
+  data_seed: 2026
+  n_trials: 20
+  timeout: null
+  max_epochs_per_trial: 200
+  # Which models to tune. By default, tune the neural baselines and iVDFM.
+  models: [ivdfm]
+  # Optional per-suite override. Example:
+  # models_by_suite:
+  #   static: [vae, ivae, ivdfm]
+  #   dynamic: [vae, ivae, ivdfm]
+  models_by_suite: {}
+
+# ---------------------------------------------------------------------------
+# Per-suite model configuration (single source; merged on model yaml).
+# Common: window/window_size 200, max_epoch(s) 200, learning_rate 0.002.
+# ---------------------------------------------------------------------------
+suite_model_overrides:
+  dynamic:
+    ivdfm:
+      batch_size: 64
+      window: 200
+      stride: 1
+      encoder_hidden_dim: 100
+      decoder_hidden_dim: 100
+      encoder_n_hidden_layers: 3
+      decoder_n_hidden_layers: 2
+      factor_order: 2
+      time_context: 3
+      scheduler_type: plateau
+      innovation_distribution: laplace
+      beta_kl: 2.96384804579094
+      max_epochs: 200
+      learning_rate: 0.002
+      patience: 33
+      dropout: 0.09054073499204782
+      optimizer_weight_decay: 0.001826481870844076
+      use_layer_norm: false
+      prior_hidden_dim: 96
+      prior_n_hidden_layers: 1
+    ddfm:
+      window_size: 200
+      learning_rate: 0.002
+      max_epoch: 200
+      n_mc_samples: 20
+    dfm:
+      max_iter: 1
+      use_cholesky_filter: true
+      damping_factor: 0.6
+      threshold: 1.0e-5
+      regularization:
+        scale: 1.0e-3
+        min_eigenvalue: 1.0e-6
+        max_eigenvalue: 0.999
+      ar_clip:
+        min: -0.99
+        max: 0.99
+    vae:
+      epochs: 200
+      hidden_dim: 100
+      n_layers: 3
+      learning_rate: 0.002
+    ivae:
+      epochs: 200
+      anneal: true
+      hidden_dim: 100
+      n_layers: 3
+      learning_rate: 0.002
+  static:
+    ivdfm:
+      batch_size: 32
+      window: 200
+      stride: 1
+      encoder_hidden_dim: 128
+      decoder_hidden_dim: 128
+      encoder_n_hidden_layers: 2
+      decoder_n_hidden_layers: 2
+      factor_order: 1
+      time_context: 2
+      scheduler_type: cosine
+      innovation_distribution: laplace
+      beta_kl: 1.1
+      max_epochs: 200
+      learning_rate: 0.002
+      patience: 25
+      dropout: 0.12
+      optimizer_weight_decay: 0.01
+      use_layer_norm: true
+      prior_hidden_dim: 64
+      prior_n_hidden_layers: 1
+    ddfm:
+      window_size: 200
+      learning_rate: 0.002
+      max_epoch: 200
+      n_mc_samples: 30
+    dfm:
+      max_iter: 1
+      use_cholesky_filter: true
+      damping_factor: 0.6
+      threshold: 1.0e-5
+      regularization:
+        scale: 1.0e-3
+        min_eigenvalue: 1.0e-6
+        max_eigenvalue: 0.999
+      ar_clip:
+        min: -0.99
+        max: 0.99
+    vae:
+      epochs: 200
+      hidden_dim: 100
+      n_layers: 3
+      learning_rate: 0.002
+    ivae:
+      epochs: 200
+      anneal: true
+      hidden_dim: 100
+      n_layers: 3
+      learning_rate: 0.002

@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Lint (ruff)
+        run: uvx ruff check .
+      - name: Byte-compile experiment code
+        run: python3 -m compileall -q run.py experiments model utils synthetic data_provider scripts
+      - name: Check lockfile is up to date
+        run: uv lock --check

@@ -1,0 +1,35 @@
+# VAE (Variational Autoencoder) model config for factor recovery
+# VAE does NOT use auxiliary variables (no identifiability guarantees)
+
+# ===== Model Architecture =====
+latent_dim: ${oc.select:dataset.r,2}
+
+# Network architecture
+n_layers: 3
+hidden_dim: 100
+activation: xtanh  # or 'lrelu', 'tanh', 'relu'
+slope: 0.1  # for lrelu/xtanh
+
+# Model-specific flags
+ica: false  # VAE doesn't use auxiliary conditioning
+batch_norm: false
+initialize: true
+
+# ===== Training Hyperparameters =====
+learning_rate: 0.01
+batch_size: 512
+epochs: 20
+
+# ELBO loss weights (VAE-specific)
+# a: KL(q(z|x) || p(z)), b: reconstruction, c: (unused for VAE), d: (unused)
+a: 1000  # KL weight
+b: 1     # Reconstruction weight
+c: 1     # (unused)
+d: 1     # (unused)
+gamma: 0
+
+# Learning schedule
+no_scheduler: false
+scheduler_tol: 3
+anneal: false
+anneal_epoch: 20

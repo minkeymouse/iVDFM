@@ -1,0 +1,13 @@
+# Synthetic static (iVAE-style) dataset (IVAESynthetic generator)
+
+# Shared latent dimension (used by all models via interpolation)
+r: 5
+
+# Generator parameters for IVAESynthetic
+n_per_seg: 1000
+n_seg: 40
+data_dim: 5
+n_layers: 3
+activation: xtanh
+noise_std: 0.0
+missing_rate: 0.0

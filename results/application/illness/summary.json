@@ -1,0 +1,25 @@
+{
+  "name": "illness_weekly_demo_r3",
+  "data_path": "./data/illness/national_illness.csv",
+  "time_col": "date",
+  "series_cols": [
+    "WEIGHTED_ILI_PCT",
+    "UNWEIGHTED_ILI_PCT",
+    "OT"
+  ],
+  "n_rows_used": 417,
+  "window": 418,
+  "stride": 1,
+  "r": 2,
+  "max_epochs": 80,
+  "batch_size": 128,
+  "variance_explained_r2": 0.4761540551401749,
+  "factor_std": [
+    1.5701589584350586,
+    0.4232766628265381
+  ],
+  "crisis_start_time": "2008-09-15",
+  "crisis_end_time": "2009-03-31",
+  "start_time_used": "2005-01-04 00:00:00",
+  "end_time_used": "2012-12-25 00:00:00"
+}

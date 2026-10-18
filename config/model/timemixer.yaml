@@ -1,0 +1,27 @@
+# TimeMixer model configuration for NeuralForecast
+# TimeMixer: A Simple MLP-Mixer Model for Time Series Forecasting
+
+# Forecast horizon (will be overridden by experiment.pred_len)
+h: ${oc.select:experiment.pred_len,96}
+
+# Input sequence length (typically 2 * h)
+# Note: input_size is computed in code as 2 * pred_len to avoid eval interpolation
+input_size: 192  # Default, will be overridden in code
+
+# Model architecture
+n_series: null  # Will be determined from data
+
+# Training
+max_steps: 1000
+val_size: 0     # Validation set size (0 = no validation split)
+scaler_type: null  # data loader already scales
+
+# Optimizer
+learning_rate: 0.001
+batch_size: 1024
+
+# TimeMixer specific hyperparameters
+n_blocks: 3
+ff_dim: 256
+dropout: 0.1
+activation: gelu

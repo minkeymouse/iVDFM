@@ -1,0 +1,17 @@
+defaults:
+  - experiment: forecasting
+  - dataset: weather
+  - model: dfm
+  - _self_
+
+# Global
+setting: default
+seed: 2026
+
+# Keep everything in-place (no Hydra run dirs / no chdir)
+hydra:
+  job:
+    chdir: false
+  run:
+    dir: .
+  output_subdir: null

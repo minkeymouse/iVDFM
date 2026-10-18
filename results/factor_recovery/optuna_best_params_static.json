@@ -1,0 +1,9 @@
+{
+  "ivdfm": {
+    "beta_kl": 0.3106994199770127,
+    "dropout": 0.12086004719269947,
+    "optimizer_weight_decay": 0.007472045495484126,
+    "batch_size": 64,
+    "_best_value_neg_mcc": -0.5904578566551208
+  }
+}

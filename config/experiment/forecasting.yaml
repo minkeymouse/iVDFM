@@ -1,0 +1,121 @@
+# Forecasting experiment: sMSE and CRPS per dataset, horizon, and model.
+# Results under output_dir as {dataset}/{model}/h{horizon}.json.
+# iVDFM params: fixed per-dataset in ivdfm_dataset_params (reproducible; no Optuna loading).
+
+# --- Experiment (what to run) ---
+datasets: [etth1, etth2, ettm1, ettm2, weather]
+models: [ivdfm, itransformer, timemixer, timexer, ddfm, mlpmultivariate]
+horizons: [96, 192, 336, 720]
+window: 96
+stride: 25
+
+# --- Output ---
+output_dir: ./results/forecasting
+forecasting_tables_dir: null
+forecasting_max_origins: 10
+
+# --- iVDFM (reproducible; no Optuna) ---
+# Per-dataset fixed params below. window/stride are overwritten by experiment.
+ivdfm_dataset_params:
+  etth1:
+    encoder_hidden_dim: 128
+    encoder_n_hidden_layers: 2
+    decoder_hidden_dim: 96
+    decoder_n_hidden_layers: 3
+    prior_hidden_dim: 64
+    prior_n_hidden_layers: 3
+    learning_rate: 0.004329
+    max_epochs: 65
+    decoder_var: 0.056314
+    beta_kl: 1.32946
+    dropout: 0.110625
+    time_context: 2
+    num_factors: 3
+    factor_order: 3
+    num_regimes: 7
+    mixing: false
+    regime_temperature: 0.2
+    batch_size: 1024
+  etth2:
+    encoder_hidden_dim: 64
+    encoder_n_hidden_layers: 2
+    decoder_hidden_dim: 160
+    decoder_n_hidden_layers: 2
+    prior_hidden_dim: 128
+    prior_n_hidden_layers: 1
+    learning_rate: 0.001145
+    max_epochs: 90
+    decoder_var: 0.077156
+    beta_kl: 1.25586
+    dropout: 0.015106
+    time_context: 2
+    num_factors: 3
+    factor_order: 2
+    num_regimes: 7
+    mixing: false
+    regime_temperature: 0.2
+    batch_size: 1024
+  ettm1:
+    encoder_hidden_dim: 96
+    encoder_n_hidden_layers: 2
+    decoder_hidden_dim: 200
+    decoder_n_hidden_layers: 2
+    prior_hidden_dim: 64
+    prior_n_hidden_layers: 1
+    learning_rate: 0.004876
+    max_epochs: 70
+    decoder_var: 0.069917
+    beta_kl: 1.25279
+    dropout: 0.118011
+    time_context: 2
+    num_factors: 3
+    factor_order: 3
+    num_regimes: 7
+    mixing: false
+    regime_temperature: 0.2
+    batch_size: 1024
+  ettm2:
+    encoder_hidden_dim: 64
+    encoder_n_hidden_layers: 2
+    decoder_hidden_dim: 128
+    decoder_n_hidden_layers: 3
+    prior_hidden_dim: 128
+    prior_n_hidden_layers: 3
+    learning_rate: 0.004728
+    max_epochs: 50
+    decoder_var: 0.016189
+    beta_kl: 0.77535
+    dropout: 0.192984
+    time_context: 2
+    num_factors: 3
+    factor_order: 3
+    num_regimes: 7
+    mixing: false
+    regime_temperature: 0.2
+    batch_size: 1024
+  weather:
+    encoder_hidden_dim: 512
+    encoder_n_hidden_layers: 1
+    decoder_hidden_dim: 128
+    decoder_n_hidden_layers: 3
+    prior_hidden_dim: 160
+    prior_n_hidden_layers: 1
+    learning_rate: 0.002590
+    max_epochs: 95
+    decoder_var: 0.079983
+    beta_kl: 1.02784
+    dropout: 0.044973
+    time_context: 4
+    num_factors: 6
+    factor_order: 3
+    num_regimes: 7
+    mixing: false
+    regime_temperature: 0.2
+    batch_size: 1024
+ivdfm_max_epochs: null
+
+# --- DDFM (defaults for full run; scripts can override) ---
+ddfm_max_epoch: 3
+ddfm_encoder_layers: [32, 16]
+ddfm_window_size: 96
+ddfm_max_epoch_pretrain: 5

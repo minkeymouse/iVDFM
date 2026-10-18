@@ -1,0 +1,39 @@
+# dfm-python DDFMConfig (full key list; override via CLI in scripts)
+
+# ===== BaseModelConfig (shared) =====
+frequency: null
+clock: d
+target_scaler: null  # scaling handled by our data loader
+
+# ===== DDFMConfig (DDFM-specific) =====
+# Representation / network
+# Interpolate from dataset config (e.g., dataset/etth1.yaml).
+# Fallback keeps configs runnable when dataset.r is not provided.
+num_factors: ${oc.select:dataset.r,2}
+# Target/covariate split. Evaluation is multivariate (all series; sMSE/sMAE per variable then averaged).
+# - "none": multivariate targets (default)
+# - "all_except_target": single target; others as covariates
+target_col: OT
+covariates_mode: none
+encoder_layers: [64, 32]
+decoder_type: linear
+activation: relu
+use_batch_norm: true
+
+learning_rate: 0.001
+
+n_mc_samples: 30
+window_size: 400  # also the training batch length in dfm-python's DDFM
+use_idiosyncratic: true
+min_obs_idio: 5
+max_epoch: 50
+max_epoch_pretrain: 200  # pre-training epochs per MCMC iteration (experiment.ddfm_max_epoch_pretrain overrides)
+tolerance: 1.0e-5
+disp: 10
+seed: 2026
+lags_input: 0
+
+# Missing value handling
+interpolation_method: linear
+interpolation_limit: 10
+interpolation_limit_direction: both

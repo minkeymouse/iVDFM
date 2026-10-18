@@ -1,0 +1,46 @@
+# iVDFM defaults (dfm_python.models.ivdfm.iVDFM constructor arguments).
+# Forecasting uses per-dataset values from config/experiment/forecasting.yaml (ivdfm_dataset_params);
+# factor recovery uses config/experiment/factor_recovery.yaml (suite_model_overrides).
+
+num_factors: ${oc.select:dataset.r,3}
+num_regimes: 7            # K=1 is the plain iVDFM prior; K>1 adds the regime-embedding mixture
+regime_temperature: 0.2   # softmax temperature for the regime weights
+mixing: false             # optional global linear mixing of factors before decoding
+
+target_col: OT
+covariates_mode: none     # none: multivariate targets | all_except_target: single target, others as covariates
+context: null             # optional exogenous context columns; time features are always included
+time_context: 2           # dimension of the time-based auxiliary features
+factor_order: 3           # AR order of the factor dynamics
+
+# Networks
+encoder_hidden_dim: 128
+encoder_n_hidden_layers: 1
+decoder_type: mlp         # linear | residual | mlp
+decoder_hidden_dim: 128
+decoder_n_hidden_layers: 1
+activation: relu
+use_layer_norm: true
+prior_hidden_dim: 64
+prior_n_hidden_layers: 1
+dropout: 0.08
+
+# Training
+learning_rate: 0.0003
+batch_size: 1024
+max_epochs: 50
+patience: 15
+optimizer: AdamW
+optimizer_weight_decay: 0.02
+scheduler_type: cosine
+
+# Sliding windows (null window = full series)
+window: 1100
+stride: 50
+
+# Likelihood / prior
+innovation_distribution: laplace   # laplace | gaussian | student_t | gamma | beta | uniform
+decoder_var: 0.025
+beta_kl: 1.05
+
+seed: 2026

@@ -1,0 +1,15 @@
+Factor Recovery Experiment Results
+============================================================
+
+Configuration:
+  Suite: static
+  Model: IVDFM
+  T=200, N=20, r=5
+  n_simulations=10
+
+Results:
+  Valid runs: 10/10
+  MCC:         0.5683 ± 0.0661
+  Subspace:    0.6949 ± 0.0544
+  Smoothness:  1.7930 ± 0.1281
+  Trace R²:    0.6178 ± 0.0460

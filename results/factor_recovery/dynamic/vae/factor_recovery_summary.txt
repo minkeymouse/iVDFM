@@ -1,0 +1,15 @@
+Factor Recovery Experiment Results
+============================================================
+
+Configuration:
+  Suite: dynamic
+  Model: VAE
+  T=200, N=20, r=5
+  n_simulations=10
+
+Results:
+  Valid runs: 10/10
+  MCC:         0.6065 ± 0.0587
+  Subspace:    0.5418 ± 0.1286
+  Smoothness:  1.5844 ± 0.0741
+  Trace R²:    0.7526 ± 0.0838

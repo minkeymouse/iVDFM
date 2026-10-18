@@ -1,0 +1,36 @@
+# iVAE (Identifiable Variational Autoencoder) model config for factor recovery
+# iVAE uses auxiliary variables for identifiability (requires aux_dim from dataset)
+
+# ===== Model Architecture =====
+latent_dim: ${oc.select:dataset.r,2}
+
+# Network architecture
+n_layers: 3
+hidden_dim: 100
+activation: xtanh  # or 'lrelu', 'tanh', 'relu'
+slope: 0.1  # for lrelu/xtanh
+
+# Model-specific flags
+ica: true  # iVAE uses auxiliary conditioning (key difference from VAE)
+batch_norm: false
+initialize: true
+tcl: false  # TCL (Temporal Contrastive Learning) mode
+
+# ===== Training Hyperparameters =====
+learning_rate: 0.01
+batch_size: 512
+epochs: 150
+
+# ELBO loss weights (iVAE-specific)
+# a: KL(q(z|x,u) || p(z|u)), b: reconstruction, c: auxiliary (u-conditioning), d: regularization
+a: 1000  # KL weight (same as VAE)
+b: 1     # reconstruction weight
+c: 1     # auxiliary conditioning
+d: 1     # regularization
+gamma: 0
+
+# Learning schedule
+no_scheduler: false
+scheduler_tol: 3
+anneal: false
+anneal_epoch: 20

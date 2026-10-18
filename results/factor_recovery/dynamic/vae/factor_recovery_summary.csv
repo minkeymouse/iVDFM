@@ -1,0 +1,2 @@
+suite,model,n_valid,n_simulations,mcc_mean,mcc_std,subspace_mean,subspace_std,smoothness_mean,smoothness_std,trace_r2_mean,trace_r2_std
+dynamic,vae,10,10,0.6065308839082718,0.05865294814323288,0.5418170839548111,0.12861647262753065,1.5843820691108703,0.074107506368305,0.7526274740695953,0.083846558515872

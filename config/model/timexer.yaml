@@ -1,0 +1,29 @@
+# TimeXer model configuration for NeuralForecast
+# TimeXer: Time Series Transformer with Cross-Attention
+
+# Forecast horizon (will be overridden by experiment.pred_len)
+h: ${oc.select:experiment.pred_len,96}
+
+# Input sequence length (typically 2 * h)
+# Note: input_size is computed in code as 2 * pred_len to avoid eval interpolation
+input_size: 192  # Default, will be overridden in code
+
+# Model architecture
+n_series: null  # Will be determined from data
+
+# Training
+max_steps: 1000
+val_size: 0     # Validation set size (0 = no validation split)
+scaler_type: null  # data loader already scales
+
+# Optimizer
+learning_rate: 0.001
+batch_size: 1024
+
+# TimeXer specific hyperparameters
+d_model: 128
+n_heads: 8
+e_layers: 3
+d_ff: 256
+dropout: 0.1
+activation: gelu

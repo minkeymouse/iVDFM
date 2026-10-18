@@ -1,0 +1,15 @@
+Factor Recovery Experiment Results
+============================================================
+
+Configuration:
+  Suite: static
+  Model: DDFM
+  T=200, N=20, r=5
+  n_simulations=10
+
+Results:
+  Valid runs: 10/10
+  MCC:         0.5989 ± 0.0673
+  Subspace:    0.6147 ± 0.0540
+  Smoothness:  2.3296 ± 0.0911
+  Trace R²:    0.6745 ± 0.0502

@@ -1,0 +1,31 @@
+# Causal intervention: do(η_{t0,k} = c), compare model-implied IRF to ground truth.
+# SCM: ε_t -> f_t -> y_t (synthetic). Only iVDFM supported. scm_type: base | regime | chain.
+# Main run: base, regime, chain at T=200, r=3. Stress run (base only): T_list, r_fit_list to fill full table.
+
+scm_type: all
+n_simulations: 5
+T: 200
+r: 3
+# When set (e.g. by run script), run all T and all r; else single T, r.
+T_list: null
+r_fit_list: null
+rho: 0.8
+irf_horizon: 20
+do_time: 100
+do_value: 3.0
+num_regimes: 2         # for scm_type=regime
+chain_strength: 0.2    # for scm_type=chain (off-diagonal A)
+# Only iVDFM supports do(η) -> IRF; other models are not used in this experiment.
+models:
+  - ivdfm
+output_dir: ./results/causal
+
+# Save synthetic data from CausalSynthetic as CSV (observations, state, shock per sim)
+save_synthetic_data: false
+
+# Optuna hyperparameter tuning for iVDFM (minimize IRF MSE on synthetic data)
+optuna:
+  n_trials: 0
+  timeout: null       # seconds; null = no timeout
+  max_epochs_per_trial: 50
+  save_best_params: true   # best_params.json + best_params_sim_{i}.json in output_dir

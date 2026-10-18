@@ -1,0 +1,18 @@
+# MLPMultivariate model configuration for NeuralForecast
+# MLP for joint multivariate forecasting (shared feedforward layers)
+
+h: ${oc.select:experiment.pred_len,96}
+input_size: 192  # Default, overridden in code as 2 * pred_len
+
+n_series: null  # Will be determined from data
+
+max_steps: 1000
+val_size: 0
+scaler_type: null  # Data loader already scales
+
+learning_rate: 0.001
+batch_size: 1024
+
+# MLPMultivariate specific
+num_layers: 2
+hidden_size: 1024

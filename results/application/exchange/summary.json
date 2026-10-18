@@ -1,0 +1,27 @@
+{
+  "name": "exchange_fx_crisis2",
+  "data_path": "./data/exchange/exchange_rate.csv",
+  "time_col": "date",
+  "series_cols": [
+    "AUD_USD",
+    "JPY_USD",
+    "CAD_USD",
+    "CNY_USD",
+    "NZD_USD"
+  ],
+  "n_rows_used": 548,
+  "window": 548,
+  "stride": 1,
+  "r": 2,
+  "max_epochs": 80,
+  "batch_size": 128,
+  "variance_explained_r2": 0.67286746911326,
+  "factor_std": [
+    0.13044141232967377,
+    2.61987042427063
+  ],
+  "crisis_start_time": "2008-09-15",
+  "crisis_end_time": "2009-03-31",
+  "start_time_used": "2007-10-01 00:00:00",
+  "end_time_used": "2009-03-31 00:00:00"
+}

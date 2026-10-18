@@ -1,0 +1,6 @@
+name: ETTm1
+root_path: ./data/ETT-small
+data_path: ETTm1.csv
+target: OT
+scaler: standard
+r: 3  # latent factors for iVDFM / DDFM (7 series)

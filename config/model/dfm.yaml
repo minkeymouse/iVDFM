@@ -1,0 +1,58 @@
+# DFM (Dynamic Factor Model) config for factor recovery
+# dfm-python DFMConfig (full key list; override via CLI in scripts)
+
+# ===== BaseModelConfig (shared) =====
+# Map each observed series to a frequency code. If null, all columns use `clock`.
+# Can be per-series: {y1: d, y2: d} or grouped in adapters; we keep per-series form here.
+frequency: null
+
+# Global latent-factor clock frequency. Must be one of: a, q, sa, m, w, d.
+clock: d
+
+# dfm-python also supports `target_scaler` as a *fitted* sklearn scaler object.
+# We do scaling in our data loader, so keep this null.
+target_scaler: null
+
+# ===== DFMConfig (DFM-specific) =====
+# EM algorithm controls
+threshold: 1.0e-5
+# Synthetic factor-recovery runs are small; we do not need very long EM.
+# A smaller max_iter also avoids getting "stuck" for minutes when numerical
+# issues appear. The dfm-python defaults are higher; we cap at 50 here.
+max_iter: 50
+
+# Numerical stability / robustness
+# These were previously null (disabled), which made the synthetic runs
+# more fragile. We enable moderate clipping and regularization to keep
+# Kalman covariances well behaved and prevent NaNs/Infs in EM.
+ar_clip:
+  min: -0.99
+  max: 0.99
+
+data_clip: 10.0
+
+regularization:
+  scale: 1.0e-4
+  min_eigenvalue: 1.0e-6
+  max_eigenvalue: 0.999
+
+damping_factor: 0.8
+
+# Idiosyncratic AR(1) settings
+idio_rho0: 0.1
+idio_min_var: 1.0e-6
+
+# Kalman filtering implementation
+use_cholesky_filter: false
+
+# Mixed-frequency support (only needed if you set `frequency` with slower-than-clock series)
+tent_weights: null
+
+# Block structure (required for DFM)
+blocks:
+  global:
+    # Interpolate from dataset config (e.g., dataset/etth1.yaml).
+    # Fallback keeps configs runnable when dataset.r is not provided.
+    num_factors: ${oc.select:dataset.r,2}
+    # Empty list means "use all series columns" in our wrapper.
+    series: []
